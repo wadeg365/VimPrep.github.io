@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datatonic Internal | Vimeo Buyer Persona - AJ Pryor</title>
+    <style>
+        :root {
+            --primary: #00adef;
+            --secondary: #19b7ff;
+            --dark: #1a2e35;
+            --light: #f8f9fa;
+            --vimeo-blue: #1ab7ea;
+            --vimeo-green: #0ab508;
+            --accent: #ff4d4d;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--dark) 0%, #2c3e50 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-container img {
+            height: 40px;
+            margin-right: 15px;
+        }
+        
+        .logo-divider {
+            height: 30px;
+            width: 2px;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin: 0 15px;
+        }
+        
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        nav ul li a.active {
+            background-color: var(--vimeo-blue);
+            color: white;
+        }
+        
+        .page-title {
+            background-color: white;
+            padding: 40px 0;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .page-title h1 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .page-title p {
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+        
+        .persona-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .persona-sidebar {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .persona-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .persona-info h3 {
+            color: var(--dark);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .persona-info p {
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+        
+        .info-item {
+            margin-bottom: 15px;
+        }
+        
+        .info-item h4 {
+            font-size: 1rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        
+        .info-item p {
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .persona-details {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .detail-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .detail-card h2 {
+            color: var(--vimeo-blue);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+        
+        .detail-card p {
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .detail-card p strong {
+            color: var(--dark);
+        }
+        
+        .detail-card ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .detail-card ul li {
+            margin-bottom: 10px;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+        
+        .highlight-box {
+            background-color: rgba(26, 183, 234, 0.1);
+            border-left: 4px solid var(--vimeo-blue);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .highlight-box h3 {
+            color: var(--vimeo-blue);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .highlight-box p {
+            margin-bottom: 0;
+        }
+        
+        .quote-box {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--gray);
+            padding: 20px;
+            background-color: var(--light-gray);
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--gray);
+        }
+        
+        .quote-box p {
+            margin-bottom: 0;
+        }
+        
+        .strategy-tips {
+            margin-top: 30px;
+        }
+        
+        .strategy-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+        
+        .strategy-icon {
+            background-color: var(--vimeo-blue);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .strategy-content h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .strategy-content p {
+            color: var(--gray);
+            margin-bottom: 0;
+        }
+        
+        .question-box {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .question-box p {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .question-box .answer {
+            padding-left: 20px;
+            border-left: 2px solid var(--light-gray);
+            color: var(--gray);
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: rgba(26, 183, 234, 0.1);
+            color: var(--vimeo-blue);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 30px;
+            padding-right: 20px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--vimeo-blue);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--vimeo-blue);
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--vimeo-blue);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: var(--vimeo-green);
+        }
+        
+        .back-icon {
+            margin-right: 5px;
+        }
+        
+        @media (max-width: 992px) {
+            .persona-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .persona-sidebar {
+                position: static;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-container {
+                margin-bottom: 15px;
+                justify-content: center;
+            }
+            
+            nav ul {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* SVG Icons */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            stroke-width: 0;
+            stroke: currentColor;
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Vimeo Logo">
+                    <div class="logo-divider"></div>
+                    <div class="header-title">BigQuery Lakehouse Migration - Internal Prep Portal</div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="persona1.html" class="active">VP Data Engineering</a></li>
+                        <li><a href="persona2.html">VP Analytics</a></li>
+                        <li><a href="persona3.html">Director Data Engineering</a></li>
+                        <li><a href="persona4.html">SVP Data & Analytics</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <svg class="icon back-icon" viewBox="0 0 24 24">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path>
+            </svg>
+            Back to Home
+        </a>
+    </div>
+
+    <section class="page-title">
+        <div class="container">
+            <h1>AJ Pryor, Ph.D.</h1>
+            <p>VP Data Engineering & Automation at Vimeo</p>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="persona-grid">
+            <aside class="persona-sidebar">
+                <img src="profile1.png" alt="AJ Pryor" class="persona-image">
+                <div class="persona-info">
+                    <h3>AJ Pryor, Ph.D.</h3>
+                    <p>VP Data Engineering & Automation</p>
+                    
+                    <div class="info-item">
+                        <h4>Background</h4>
+                        <p>Ph.D. Physicist, Former HPC Engineer</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <h4>Primary Concerns</h4>
+                        <div class="tag">Technical Feasibility</div>
+                        <div class="tag">Performance</div>
+                        <div class="tag">Automation</div>
+                        <div class="tag">Security</div>
+                        <div class="tag">Cost Optimization</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <h4>Previous Experience</h4>
+                        <p>Led Google Cloud-based data platform implementation at American Tire Distributors</p>
+                    </div>
+                </div>
+            </aside>
+            
+            <div class="persona-details">
+                <div class="detail-card">
+                    <h2>Focus & Priorities</h2>
+                    <p>As the VP of Data Engineering & Automation, AJ will be primarily focused on the <strong>technical feasibility, efficiency, and strategic alignment of the proposed migration</strong> with Vimeo's overall technology roadmap. He will be keenly interested in how the migration will impact their current data infrastructure and the potential for increased automation and performance optimization, especially within the Google Cloud Platform (GCP).</p>
+                    
+                    <p>His background as a Ph.D. physicist and HPC engineer suggests a strong analytical and performance-oriented mindset. This influences his approach to technology decisions and solutions.</p>
+                    
+                    <div class="highlight-box">
+                        <h3>Key Insight</h3>
+                        <p>AJ's experience at American Tire Distributors involved leading the overhaul of team planning and execution, delivering a Google Cloud-based data platform, and modernizing cloud infrastructure with automated DevOps practices. This indicates a strong preference for cloud-based solutions and automation, making the GCP aspect of the proposal particularly relevant to him.</p>
+                    </div>
+                </div>
+                
+                <div class="detail-card">
+                    <h2>Watching Out For</h2>
+                    <ul>
+                        <li>The <strong>technical details of the migration process</strong>, including the proposed architecture on BigQuery and how it addresses challenges in distributed systems.</li>
+                        <li>The <strong>plan for data pipelines, ETL/ELT processes, and data quality</strong> in the new environment.</li>
+                        <li>How the migration will enable <strong>greater automation</strong> in data workflows and DevOps practices.</li>
+                        <li>The <strong>security aspects and IAM management</strong> in the proposed Google Cloud-based data platform.</li>
+                        <li>The <strong>performance implications</strong> of moving from Snowflake to BigQuery for their data processing and analytics workloads.</li>
+                        <li>Whether the proposal leverages <strong>cloud-native GCP services</strong> effectively.</li>
+                    </ul>
+                </div>
+                
+                <div class="detail-card">
+                    <h2>Potential Questions</h2>
+                    
+                    <div class="question-box">
+                        <p>"Can you elaborate on the proposed data architecture in BigQuery and how it compares to our current Snowflake setup in terms of scalability and performance?"</p>
+                        <div class="answer">
+                            Focus on BigQuery's separation of storage and compute, serverless architecture, and how it handles large-scale analytical workloads. Compare specific performance metrics and scaling capabilities with Snowflake.
+                        </div>
+                    </div>
+                    
+                    <div class="question-box">
+                        <p>"What tools and processes will be used for data migration, and how will data integrity be ensured throughout the process?"</p>
+                        <div class="answer">
+                            Detail the migration approach, including tools like Data Transfer Service, validation processes, and rollback procedures. Emphasize data quality checks and reconciliation methods.
+                        </div>
+                    </div>
+                    
+                    <div class="question-box">
+                        <p>"How will this migration enable us to further automate our data engineering workflows and DevOps practices on GCP?"</p>
+                        <div class="answer">
+                            Highlight Cloud Build, Cloud Composer, Dataflow, and other GCP services that facilitate workflow automation. Discuss CI/CD integration and infrastructure-as-code approaches.
+                        </div>
+                    </div>
+                    
+                    <div class="question-box">
+                        <p>"What are the key considerations for security and access management within the proposed BigQuery Lakehouse architecture?"</p>
+                        <div class="answer">
+                            Explain BigQuery's IAM model, column-level security, data masking capabilities, and integration with Google Cloud's security features. Compare with current Snowflake security model.
+                        </div>
+                    </div>
+                    
+                    <div class="question-box">
+                        <p>"Can you provide details on the estimated cost savings, particularly in data warehousing, compared to our current Snowflake environment?"</p>
+                        <div class="answer">
+                            Present a detailed cost model comparing current Snowflake costs with projected BigQuery expenses. Include storage, compute, and operational costs with specific scenarios and workloads.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-card">
+                    <h2>Individual Wins</h2>
+                    <ul>
+                        <li>A <strong>more efficient and automated data platform</strong> that reduces operational overhead and allows his team to focus on building data-driven applications.</li>
+                        <li>The adoption of a modern, scalable data lakehouse architecture on GCP, aligning with industry best practices and potentially leveraging his existing GCP expertise.</li>
+                        <li><strong>Improved data quality and governance</strong> through the migration process and the capabilities of BigQuery.</li>
+                        <li>The opportunity to <strong>lead the implementation of a strategic technology initiative</strong> that drives enterprise value.</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <h3>Success Scenario</h3>
+                        <p>AJ sees the BigQuery Lakehouse migration as an opportunity to modernize Vimeo's data infrastructure in a way that aligns with his technical vision and expertise. The migration enables his team to implement advanced data engineering practices and automation, significantly reducing manual intervention while improving data quality and accessibility.</p>
+                    </div>
+                </div>
+                
+                <div class="detail-card">
+                    <h2>Presentation Strategy Tips</h2>
+                    
+                    <div class="strategy-tips">
+                        <div class="strategy-item">
+                            <div class="strategy-icon">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+                                </svg>
+                            </div>
+                            <div class="strategy-content">
+                                <h4>Focus on Technical Depth</h4>
+                                <p>Given AJ's technical background, don't shy away from detailed technical explanations. Be prepared to discuss the architecture, implementation approach, and technical trade-offs in depth.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="strategy-item">
+                            <div class="strategy-icon">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M21 7L9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7z"></path>
+                                </svg>
+                            </div>
+                            <div class="strategy-content">
+                                <h4>Emphasize Automation Capabilities</h4>
+                                <p>Highlight how the BigQuery Lakehouse architecture can drive automation in data workflows, CI/CD processes, and DevOps practices—aligning with his previous successes.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="strategy-item">
+                            <div class="strategy-icon">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"></path>
+                                </svg>
+                            </div>
+                            <div class="strategy-content">
+                                <h4>Provide Comparative Analysis</h4>
+                                <p>Include specific, quantitative comparisons between Snowflake and BigQuery for performance, cost, and functionality. His scientific background means he'll appreciate data-driven arguments.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="strategy-item">
+                            <div class="strategy-icon">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path>
+                                </svg>
+                            </div>
+                            <div class="strategy-content">
+                                <h4>Address Security Concerns Directly</h4>
+                                <p>Be prepared with detailed information about BigQuery's security capabilities, IAM model, and compliance features. AJ will want assurance about maintaining robust security during and after migration.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Pitch Materials</h3>
+                    <ul>
+                        <li><a href="#">Presentation Deck</a></li>
+                        <li><a href="#">Proposal Document</a></li>
+                        <li><a href="#">Technical Architecture</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Team Resources</h3>
+                    <ul>
+                        <li><a href="#">Presentation Tips</a></li>
+                        <li><a href="#">Objection Handling Guide</a></li>
+                        <li><a href="#">Competitive Analysis</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Internal Support</h3>
+                    <ul>
+                        <li><a href="#">Dry Run Schedule</a></li>
+                        <li><a href="#">Pitch Lead Contacts</a></li>
+                        <li><a href="#">Technical SMEs</a></li>
+                        <li><a href="#">Feedback Form</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 Datatonic. Internal use only. Prepared for Vimeo BigQuery Lakehouse Migration Pitch.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

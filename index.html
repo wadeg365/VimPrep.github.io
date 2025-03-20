@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datatonic Internal | Vimeo BigQuery Migration - Home</title>
+    <style>
+        :root {
+            --primary: #00adef;
+            --secondary: #19b7ff;
+            --dark: #1a2e35;
+            --light: #f8f9fa;
+            --vimeo-blue: #1ab7ea;
+            --vimeo-green: #0ab508;
+            --accent: #ff4d4d;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --google-blue: #4285F4;
+            --google-red: #EA4335;
+            --google-yellow: #FBBC05;
+            --google-green: #34A853;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--dark) 0%, #2c3e50 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-container img {
+            height: 40px;
+            margin-right: 15px;
+        }
+        
+        .logo-divider {
+            height: 30px;
+            width: 2px;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin: 0 15px;
+        }
+        
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        nav ul li a.active {
+            background-color: var(--vimeo-blue);
+            color: white;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(26, 46, 53, 0.8), rgba(26, 46, 53, 0.9)), url('vimeo-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--vimeo-blue);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .personas-section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .personas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .persona-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .persona-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .persona-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .persona-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .persona-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .persona-content h4 {
+            font-size: 1rem;
+            color: var(--vimeo-blue);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .persona-content p {
+            color: var(--gray);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .view-profile {
+            display: inline-block;
+            color: var(--vimeo-blue);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .view-profile::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--vimeo-blue);
+            transition: width 0.3s ease;
+        }
+        
+        .view-profile:hover::after {
+            width: 100%;
+        }
+        
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .card-tag {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: rgba(26, 183, 234, 0.1);
+            color: var(--vimeo-blue);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .resources-section {
+            padding: 80px 0;
+            background-color: #f2f7fa;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .resource-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .resource-icon {
+            width: 60px;
+            height: 60px;
+            margin: 30px auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(26, 183, 234, 0.1);
+            border-radius: 50%;
+        }
+        
+        .resource-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--vimeo-blue);
+        }
+        
+        .resource-content {
+            padding: 0 25px 25px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .resource-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .resource-content p {
+            color: var(--gray);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .proposal-section {
+            padding: 80px 0;
+        }
+        
+        .proposal-card {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            border-radius: 8px;
+            padding: 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .proposal-card h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .proposal-card p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+        }
+        
+        .btn-white {
+            background-color: white;
+            color: var(--google-blue);
+        }
+        
+        .btn-white:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .timeline-section {
+            padding: 80px 0;
+            background-color: #f2f7fa;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--vimeo-blue);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+        
+        .milestone {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        
+        .milestone::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background-color: white;
+            border: 4px solid var(--vimeo-blue);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .right::after {
+            left: -16px;
+        }
+        
+        .milestone-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .milestone-content h3 {
+            color: var(--vimeo-blue);
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 30px;
+            padding-right: 20px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--vimeo-blue);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--vimeo-blue);
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 992px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .milestone {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .milestone::after {
+                left: 15px;
+            }
+            
+            .right {
+                left: 0%;
+            }
+            
+            .right::after {
+                left: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-container {
+                margin-bottom: 15px;
+                justify-content: center;
+            }
+            
+            nav ul {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                display: block;
+                margin: 10px auto;
+                max-width: 200px;
+            }
+        }
+
+        /* SVG Icons */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            stroke-width: 0;
+            stroke: currentColor;
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Vimeo Logo">
+                    <div class="logo-divider"></div>
+                    <div class="header-title">BigQuery Lakehouse Migration - Internal Prep Portal</div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html" class="active">Home</a></li>
+                        <li><a href="persona1.html">VP Data Engineering</a></li>
+                        <li><a href="persona2.html">VP Analytics</a></li>
+                        <li><a href="persona3.html">Director Data Engineering</a></li>
+                        <li><a href="persona4.html">SVP Data & Analytics</a></li>
+                        <li><a href="proposal-summary.html">Proposal Summary</a></li>
+                        <li><a href="fresh-objection-guide.html">Objection Guide </a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Vimeo BigQuery Lakehouse Migration</h1>
+            <p>Your internal portal for understanding stakeholders and preparing for the presentation of our migration proposal.</p>
+            <div>
+                <a href="#personas" class="btn">Meet the Stakeholders</a>
+                <a href="proposal-summary.html" class="btn btn-secondary">View Proposal Summary</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="personas" class="personas-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Key Stakeholders</h2>
+                <p>Understand the profiles, concerns, and priorities of the key decision makers in Vimeo's data team that you'll be presenting to.</p>
+            </div>
+            
+            <div class="personas-grid">
+                <div class="persona-card">
+                    <img src="profile1.png" alt="AJ Pryor" class="persona-image">
+                    <div class="persona-content">
+                        <h3>AJ Pryor, Ph.D.</h3>
+                        <h4>VP Data Engineering & Automation</h4>
+                        <div class="card-tags">
+                            <span class="card-tag">Technical Depth</span>
+                            <span class="card-tag">Performance</span>
+                            <span class="card-tag">Security</span>
+                        </div>
+                        <p>Former physicist and HPC engineer with extensive experience in Google Cloud. Looking for technical rigor and automation opportunities.</p>
+                        <a href="persona1.html" class="view-profile">View Full Profile</a>
+                    </div>
+                </div>
+                
+                <div class="persona-card">
+                    <img src="profile2.png" alt="Julianna Wilson" class="persona-image">
+                    <div class="persona-content">
+                        <h3>Julianna Wilson</h3>
+                        <h4>VP Analytics</h4>
+                        <div class="card-tags">
+                            <span class="card-tag">BI Tools</span>
+                            <span class="card-tag">Insights</span>
+                            <span class="card-tag">Dashboards</span>
+                        </div>
+                        <p>Focused on analytics capabilities and how the migration will impact dashboards, reporting, and business intelligence.</p>
+                        <a href="persona2.html" class="view-profile">View Full Profile</a>
+                    </div>
+                </div>
+                
+                <div class="persona-card">
+                    <img src="profile3.png" alt="Kunal Sinha" class="persona-image">
+                    <div class="persona-content">
+                        <h3>Kunal Sinha</h3>
+                        <h4>Director, Data Engineering</h4>
+                        <div class="card-tags">
+                            <span class="card-tag">Architecture</span>
+                            <span class="card-tag">Governance</span>
+                            <span class="card-tag">ETL</span>
+                        </div>
+                        <p>Technical leader concerned with data modeling, architecture decisions, and engineering processes involved in the migration.</p>
+                        <a href="persona3.html" class="view-profile">View Full Profile</a>
+                    </div>
+                </div>
+                
+                <div class="persona-card">
+                    <img src="profile4.png" alt="Graham B." class="persona-image">
+                    <div class="persona-content">
+                        <h3>Graham B.</h3>
+                        <h4>SVP of Data, Analytics and Integrations</h4>
+                        <div class="card-tags">
+                            <span class="card-tag">Strategic</span>
+                            <span class="card-tag">Business Value</span>
+                            <span class="card-tag">ROI</span>
+                        </div>
+                        <p>Executive focused on business strategy, ROI, and how the migration enables Vimeo to achieve its strategic objectives.</p>
+                        <a href="persona4.html" class="view-profile">View Full Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="proposal-section">
+        <div class="container">
+            <div class="proposal-card">
+                <h2>Migration Proposal Overview</h2>
+                <p>Our comprehensive proposal details how we'll migrate Vimeo from Snowflake to a BigQuery Lakehouse architecture, including technology components, timelines, and our unique differentiators.</p>
+                <a href="proposal-summary.html" class="btn btn-white">View Proposal Summary</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="resources-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Presentation Resources</h2>
+                <p>Access the tools and resources you need to prepare for a successful presentation.</p>
+            </div>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"></path>
+                        </svg>
+                    </div>
+                    <div class="resource-content">
+                        <h3>Objection Handling Guide</h3>
+                        <p>Prepare for questions and concerns that might arise during the presentation with our detailed objection handling guide.</p>
+                        <a href="#" class="view-profile">Access Guide</a>
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6A4.997 4.997 0 0 1 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"></path>
+                        </svg>
+                    </div>
+                    <div class="resource-content">
+                        <h3>Technical Deep Dives</h3>
+                        <p>In-depth technical information on GCP services, BigQuery architecture, and migration methodologies to support detailed discussions.</p>
+                        <a href="#" class="view-profile">View Deep Dives</a>
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path>
+                        </svg>
+                    </div>
+                    <div class="resource-content">
+                        <h3>Case Studies</h3>
+                        <p>Reference similar successful migrations we've conducted with specific focus on companies in the media and technology space.</p>
+                        <a href="#" class="view-profile">Browse Cases</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="timeline-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Presentation Timeline</h2>
+                <p>Key dates and milestones for the upcoming presentation and decision process.</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="milestone left">
+                    <div class="milestone-content">
+                        <h3>Internal Dry Run</h3>
+                        <p>March 25, 2025 - Final internal presentation rehearsal with technical and commercial teams.</p>
+                    </div>
+                </div>
+                <div class="milestone right">
+                    <div class="milestone-content">
+                        <h3>Executive Presentation</h3>
+                        <p>April 1, 2025 - Initial presentation to Vimeo leadership team.</p>
+                    </div>
+                </div>
+                <div class="milestone left">
+                    <div class="milestone-content">
+                        <h3>Technical Deep Dive</h3>
+                        <p>April 8, 2025 - Detailed technical session with Vimeo engineering teams.</p>
+                    </div>
+                </div>
+                <div class="milestone right">
+                    <div class="milestone-content">
+                        <h3>Decision Deadline</h3>
+                        <p>April 22, 2025 - Target date for Vimeo's decision on the proposal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Pitch Materials</h3>
+                    <ul>
+                        <li><a href="proposal-summary.html">Proposal Summary</a></li>
+                        <li><a href="#">Presentation Deck</a></li>
+                        <li><a href="#">Technical Architecture</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Team Resources</h3>
+                    <ul>
+                        <li><a href="#">Presentation Tips</a></li>
+                        <li><a href="#">Objection Handling Guide</a></li>
+                        <li><a href="#">Competitive Analysis</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Internal Support</h3>
+                    <ul>
+                        <li><a href="#">Dry Run Schedule</a></li>
+                        <li><a href="#">Pitch Lead Contacts</a></li>
+                        <li><a href="#">Technical SMEs</a></li>
+                        <li><a href="#">Feedback Form</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 Datatonic. Internal use only. Prepared for Vimeo BigQuery Lakehouse Migration Pitch.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
